@@ -28,6 +28,7 @@ for file in files:
     frames.append(df)
 
 #Combine datasets
+#PUSH
 data = pd.concat(frames, ignore_index=True)
 print(f"Total rows: {len(data)}")
 
