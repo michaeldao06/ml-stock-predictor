@@ -9,7 +9,7 @@ This project builds a machine learning pipeline to predict short-term stock pric
 - Models: Random Forest, Logistic Regression
 
 ## Results
-- Achieved ~53–58% accuracy depending on stock
+- Achieved ~51–52% accuracy depending on model used
 - Performance varies across equities, highlighting market complexity
 
 ## How to Run
