@@ -33,7 +33,6 @@ data = pd.concat(frames, ignore_index=True)
 print(f"Total rows: {len(data)}")
 
 #Features used for prediction
-#Push Test
 features = [
     "Return",
     "MA5",
