@@ -54,21 +54,27 @@ y = data["Target"]
 
 # remove rows where shifting created NaNs
 dataset = pd.concat([X,y], axis=1).dropna()
-X = dataset[features]
-y = dataset["Target"]
+dataset["Ticker"] = data.loc[dataset.index, "Ticker"]
 
-'''
-data = data.dropna()
-X = X.loc[data.index]
-y = y.loc[data.index]
-'''
-# Split dataset into training and testing sets
-split = int(len(X) * 0.80)
-X_train = X[:split]
-X_test = X[split:]
+train_parts = []
+test_parts = []
 
-y_train = y[:split]
-y_test = y[split:]
+for ticker in dataset["Ticker"].unique():
+    ticker_data = dataset[dataset["Ticker"] == ticker].copy()
+    split_idx = int(len(ticker_data) * 0.80)
+
+    train_parts.append(ticker_data.iloc[:split_idx])
+    test_parts.append(ticker_data.iloc[split_idx:])
+
+train_data = pd.concat(train_parts, ignore_index=True)
+test_data = pd.concat(test_parts, ignore_index=True)
+
+X_train = train_data[features]
+y_train = train_data["Target"]
+
+X_test = test_data[features]
+y_test = test_data["Target"]
+
 
 #--Random Forest Model--
 forest_model = RandomForestClassifier(
@@ -102,6 +108,16 @@ log_predictions = log_model.predict(X_test_scaled)
 log_accuracy = accuracy_score(y_test, log_predictions)
 #Results for Regression Model
 print(f"Logistic Regression Accuracy: {log_accuracy:.2f}")
+
+results = test_data.copy()
+results["Predicted"] = forest_predictions
+
+ticker_acc = results.groupby("Ticker").apply(
+    lambda x: (x["Target"] == x["Predicted"]).mean()
+)
+
+print("\nAccuracy per ticker:")
+print(ticker_acc)
 
 
 print(len(data))
