@@ -69,12 +69,14 @@ for ticker in dataset["Ticker"].unique():
 train_data = pd.concat(train_parts, ignore_index=True)
 test_data = pd.concat(test_parts, ignore_index=True)
 
-X_train = train_data[features]
+X_train = pd.get_dummies(train_data[features + ["Ticker"]], columns=["Ticker"])
 y_train = train_data["Target"]
 
-X_test = test_data[features]
+X_test = pd.get_dummies(test_data[features + ["Ticker"]], columns=["Ticker"])
 y_test = test_data["Target"]
 
+# Align columns (VERY important)
+X_train, X_test = X_train.align(X_test, join="left", axis=1, fill_value=0)
 
 #--Random Forest Model--
 forest_model = RandomForestClassifier(
@@ -89,7 +91,7 @@ forest_accuracy = accuracy_score(y_test, forest_predictions)
 #Results for the Random Forest Model
 print("Random Forest Model trained successfully.")
 print(f"Random Forest Accuracy: {forest_accuracy:.2f}")
-forest_importances = pd.Series(forest_model.feature_importances_, index=features)
+forest_importances = pd.Series(forest_model.feature_importances_, index=X_train.columns)
 print(forest_importances.sort_values(ascending=False))
 
 
