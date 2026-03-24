@@ -70,8 +70,9 @@ for file in files:
     #Distance from MA20
     data["Distance_MA20"] = data["Close"] / data["Close"].rolling(20).mean() - 1
 
-    #Target Variable: UP or DOWN tomorrow
-    data["Target"] = (data["Close"].shift(-1) > data["Close"]).astype(int) #tomorrow_close > today's close,
+    #Target Variable: UP or DOWN in 5 days
+    # Using 5-day horizon to reduce noise and capture trend-based movement
+    data["Target"] = (data["Close"].shift(-5) > data["Close"]).astype(int) #tomorrow_close > today's close,
     # 1 = stock goes UP tomorrow
     # 0 = stock goes DOWN tomorrow
     #This is the goal of what the ML model will predict
