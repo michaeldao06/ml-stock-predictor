@@ -26,6 +26,7 @@ python3 -m venv venv
 source venv/bin/activate
 
 pip install -r requirements.txt
+'''
 
 ## How to Run
 1. Run data download:
