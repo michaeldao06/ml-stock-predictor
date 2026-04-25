@@ -17,6 +17,16 @@ This project builds a machine learning pipeline to predict short-term stock pric
      - Weak performance on efficient assets (SPY)
 - Findings highlight that predictive signals differ across equities and are not universally       transferable
 
+## Setup
+```bash
+git clone https://github.com/michaeldao06/ml-stock-predictor.git
+cd ml-stock-predictor
+
+python3 -m venv venv
+source venv/bin/activate
+
+pip install -r requirements.txt
+
 ## How to Run
 1. Run data download:
    python data_download.py
