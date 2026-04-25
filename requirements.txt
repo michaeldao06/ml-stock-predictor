@@ -1,4 +1,4 @@
-pandas
-numpy
-scikit-learn
-yfinance
+pandas==2.3.3
+numpy==2.0.2
+scikit-learn==1.6.1
+yfinance==1.2.0
